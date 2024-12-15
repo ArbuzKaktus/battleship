@@ -1,0 +1,32 @@
+[
+{
+  "directory": "C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/out_input_stream_lib",
+  "command": "C:\\msys64\\mingw64\\bin\\clang++.exe   -g -std=gnu++23 -o CMakeFiles\\out_input_stream_lib.dir\\out_input_stream.cpp.obj -c C:\\ITMO\\op5\\labwork5-ArbuzKaktus\\lib\\out_input_stream_lib\\out_input_stream.cpp",
+  "file": "C:/ITMO/op5/labwork5-ArbuzKaktus/lib/out_input_stream_lib/out_input_stream.cpp",
+  "output": "lib/out_input_stream_lib/CMakeFiles/out_input_stream_lib.dir/out_input_stream.cpp.obj"
+},
+{
+  "directory": "C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/game_lib",
+  "command": "C:\\msys64\\mingw64\\bin\\clang++.exe   -g -std=gnu++23 -o CMakeFiles\\ship_lib.dir\\ship.cpp.obj -c C:\\ITMO\\op5\\labwork5-ArbuzKaktus\\lib\\game_lib\\ship.cpp",
+  "file": "C:/ITMO/op5/labwork5-ArbuzKaktus/lib/game_lib/ship.cpp",
+  "output": "lib/game_lib/CMakeFiles/ship_lib.dir/ship.cpp.obj"
+},
+{
+  "directory": "C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/game_lib",
+  "command": "C:\\msys64\\mingw64\\bin\\clang++.exe   -g -std=gnu++23 -o CMakeFiles\\strategy_lib.dir\\strategy.cpp.obj -c C:\\ITMO\\op5\\labwork5-ArbuzKaktus\\lib\\game_lib\\strategy.cpp",
+  "file": "C:/ITMO/op5/labwork5-ArbuzKaktus/lib/game_lib/strategy.cpp",
+  "output": "lib/game_lib/CMakeFiles/strategy_lib.dir/strategy.cpp.obj"
+},
+{
+  "directory": "C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/game_lib",
+  "command": "C:\\msys64\\mingw64\\bin\\clang++.exe  @CMakeFiles/game_lib.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\game_lib.dir\\game.cpp.obj -c C:\\ITMO\\op5\\labwork5-ArbuzKaktus\\lib\\game_lib\\game.cpp",
+  "file": "C:/ITMO/op5/labwork5-ArbuzKaktus/lib/game_lib/game.cpp",
+  "output": "lib/game_lib/CMakeFiles/game_lib.dir/game.cpp.obj"
+},
+{
+  "directory": "C:/ITMO/op5/labwork5-ArbuzKaktus/build/bin",
+  "command": "C:\\msys64\\mingw64\\bin\\clang++.exe  @CMakeFiles/Battleship.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Battleship.dir\\main.cpp.obj -c C:\\ITMO\\op5\\labwork5-ArbuzKaktus\\bin\\main.cpp",
+  "file": "C:/ITMO/op5/labwork5-ArbuzKaktus/bin/main.cpp",
+  "output": "bin/CMakeFiles/Battleship.dir/main.cpp.obj"
+}
+]

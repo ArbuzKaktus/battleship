@@ -1,0 +1,15 @@
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/CMakeFiles/edit_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/CMakeFiles/rebuild_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/CMakeFiles/edit_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/CMakeFiles/rebuild_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/out_input_stream_lib/CMakeFiles/out_input_stream_lib.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/out_input_stream_lib/CMakeFiles/edit_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/out_input_stream_lib/CMakeFiles/rebuild_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/game_lib/CMakeFiles/game_lib.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/game_lib/CMakeFiles/ship_lib.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/game_lib/CMakeFiles/strategy_lib.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/game_lib/CMakeFiles/edit_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/lib/game_lib/CMakeFiles/rebuild_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/bin/CMakeFiles/Battleship.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/bin/CMakeFiles/edit_cache.dir
+C:/ITMO/op5/labwork5-ArbuzKaktus/build/bin/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,6 @@
+add_executable(Battleship main.cpp)
+
+target_link_libraries(Battleship PRIVATE game_lib)
+target_link_libraries(Battleship PRIVATE out_input_stream_lib)
+target_include_directories(Battleship PRIVATE "../lib/game_lib")
+target_include_directories(Battleship PRIVATE "../lib/out_input_stream_lib")

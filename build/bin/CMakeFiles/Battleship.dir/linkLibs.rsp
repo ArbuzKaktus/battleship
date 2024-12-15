@@ -1,0 +1,1 @@
+ ../lib/game_lib/libgame_lib.a ../lib/out_input_stream_lib/libout_input_stream_lib.a ../lib/game_lib/libgame_lib.a ../lib/game_lib/libship_lib.a ../lib/game_lib/libstrategy_lib.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

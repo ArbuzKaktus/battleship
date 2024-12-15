@@ -1,0 +1,2 @@
+C:\msys64\mingw64\bin\llvm-ar.exe qc libout_input_stream_lib.a CMakeFiles/out_input_stream_lib.dir/out_input_stream.cpp.obj
+C:\msys64\mingw64\bin\llvm-ranlib.exe libout_input_stream_lib.a
