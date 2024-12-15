@@ -1,0 +1,3 @@
+add_library(out_input_stream_lib out_input_stream.h out_input_stream.cpp)
+
+target_link_libraries(out_input_stream_lib PRIVATE game_lib)

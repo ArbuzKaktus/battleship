@@ -1,0 +1,8 @@
+add_subdirectory(out_input_stream_lib)
+add_subdirectory(game_lib)
+target_include_directories(game_lib PRIVATE out_input_stream_lib)
+
+include_directories(
+  "${CMAKE_CURRENT_SOURCE_DIR}/game_lib/"
+  "${CMAKE_CURRENT_SOURCE_DIR}/out_input_stream_lib/"
+)
