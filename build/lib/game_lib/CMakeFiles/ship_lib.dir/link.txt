@@ -1,2 +1,0 @@
-C:\msys64\mingw64\bin\llvm-ar.exe qc libship_lib.a CMakeFiles/ship_lib.dir/ship.cpp.obj
-C:\msys64\mingw64\bin\llvm-ranlib.exe libship_lib.a

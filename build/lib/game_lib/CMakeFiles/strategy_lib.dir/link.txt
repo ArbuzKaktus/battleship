@@ -1,2 +1,0 @@
-C:\msys64\mingw64\bin\llvm-ar.exe qc libstrategy_lib.a CMakeFiles/strategy_lib.dir/strategy.cpp.obj
-C:\msys64\mingw64\bin\llvm-ranlib.exe libstrategy_lib.a
