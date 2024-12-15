@@ -10,6 +10,18 @@
 #include "shot.h"
 #include "strategy.h"
 
+struct ShipPlaceState {
+  ShipPlaceState(uint64_t size_x, uint64_t size_y, std::vector<uint64_t> ships_count);
+  bool IsAbroad();
+  bool MaKeStep();
+  bool AllShipsArePlaced();
+
+  std::vector<uint64_t> count_ship;
+  size_t window, new_size;
+  uint64_t x, y, min_x, min_y, max_x, max_y;
+  uint16_t degrees_rotate;
+};
+
 class SettingDevice {
   public:
     SettingDevice();
@@ -66,18 +78,12 @@ class PlayerGame : public Game {
     ShotStates Shot(const uint64_t& x, const uint64_t& y);
 
   private:
-    size_t GetShipSize(uint64_t x, uint64_t y, char rotate);
-    char GetShipRotate(uint64_t x, uint64_t y);
-    bool CirclePlace(bool is_check);
-    bool ColumnRowPlace(bool is_check,bool is_row);
-    bool MakeUpToRightRotate(uint64_t& x, uint64_t& y, uint64_t& max_y, uint64_t& min_x, 
-                const uint64_t max_x, uint16_t& rotate, std::vector<uint64_t>& count_ship, bool is_check);
-    bool MakeRightToDownRotate(uint64_t& x, uint64_t& y, uint64_t& max_y, uint64_t& max_x, 
-                const uint64_t min_y, uint16_t& rotate, std::vector<uint64_t>& count_ship, bool is_check);
-    bool MakeDownToLeftRotate(uint64_t& x, uint64_t& y, uint64_t& min_y, uint64_t& max_x, 
-                const uint64_t min_x, uint16_t& rotate, std::vector<uint64_t>& count_ship, bool is_check);
-    bool MakeLeftToUpRotate(uint64_t& x, uint64_t& y, uint64_t& min_y, uint64_t& min_x, 
-                const uint64_t max_y, uint16_t& rotate, std::vector<uint64_t>& count_ship, bool is_check);
+    bool CirclePlace(bool is_check, ShipPlaceState& state);
+    bool ColumnRowPlace(bool is_check, bool is_row, ShipPlaceState& state);
+    bool MakeUpToRightRotate(ShipPlaceState& state, bool is_check);
+    bool MakeRightToDownRotate(ShipPlaceState& state, bool is_check);
+    bool MakeDownToLeftRotate(ShipPlaceState& state, bool is_check);
+    bool MakeLeftToUpRotate(ShipPlaceState& state, bool is_check);
     void PlaceShip(uint64_t& x, uint64_t& y, const size_t& ship_size, const uint16_t& rotation, bool is_check);
     bool is_field_;
     Field field_;

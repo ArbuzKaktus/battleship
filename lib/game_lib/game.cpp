@@ -15,7 +15,155 @@ namespace {
   const size_t kRightDegree = 90;
   const size_t kDownDegree = 180;
   const size_t kLeftDegree = 270;
+
+  // struct ShipPlaceState {
+  //   ShipPlaceState(uint64_t size_x, uint64_t size_y, std::vector<uint64_t> ships_count)
+  //                 : count_ship(ships_count), new_size(0), x(0), y(0), min_x(0),
+  //                   max_x(size_x - 1), max_y(size_y - 1), degrees_rotate(0) 
+  //                 {}
+  //   bool IsAbroad() {
+  //     return x < min_x || x > max_x || y < min_y || y > max_y;
+  //   }
+    
+  //   bool MaKeStep() {
+  //     switch (degrees_rotate % kCircle) {
+  //     case KUpDegree:
+  //       y += 2;
+  //       if (y > max_y) {
+  //         y = max_y;
+  //         x += 2;
+  //         if (x > max_x) {
+  //           return false;
+  //         }
+  //         min_x = x;
+  //       }
+  //       break;
+  //     case kRightDegree:
+  //       x += 2;
+  //       if (x > max_x) {
+  //         x = max_x;
+  //         if (y < min_y + 2) {
+  //           return false;
+  //         }
+  //         y -= 2;
+  //         max_y = y;
+  //       }
+  //       break;
+  //     case kDownDegree:
+  //       if (y < min_y + 2) {
+  //         y = min_y;
+  //         if (x < min_x + 2) {
+  //           return false;
+  //         }
+  //         x -= 2;
+  //         max_x = x;
+  //       } else {
+  //         y -= 2;
+  //       }
+  //       break;
+  //     case kLeftDegree:
+  //       if (x < min_x + 2) {
+  //         x = min_x;
+  //         y += 2;
+  //         if (y > max_y) {
+  //           return false;
+  //         }
+  //         min_y = y;
+  //       } else {
+  //         x -= 2;
+  //       }
+  //       break;
+  //     }
+  //     degrees_rotate += kOneRotate;
+  //     return true;
+  //   }
+
+  //   bool AllShipsArePlaced() {
+  //     for (uint64_t elem: count_ship) {
+  //       if (elem != 0) {
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   }
+
+  //   std::vector<uint64_t> count_ship;
+  //   size_t window, new_size;
+  //   uint64_t x, y, min_x, min_y, max_x, max_y;
+  //   uint16_t degrees_rotate;
+  // };
 }
+ShipPlaceState::ShipPlaceState(uint64_t size_x, uint64_t size_y, std::vector<uint64_t> ships_count)
+                : count_ship(ships_count), new_size(0), x(0), y(0), min_x(0),
+                  max_x(size_x - 1), max_y(size_y - 1), degrees_rotate(0) 
+                {}
+                
+bool ShipPlaceState::MaKeStep() {
+  switch (degrees_rotate % kCircle) {
+  case KUpDegree:
+    y += 2;
+    if (y > max_y) {
+      y = max_y;
+      x += 2;
+      if (x > max_x) {
+        return false;
+      }
+      min_x = x;
+    }
+    break;
+  case kRightDegree:
+    x += 2;
+    if (x > max_x) {
+      x = max_x;
+      if (y < min_y + 2) {
+        return false;
+      }
+      y -= 2;
+      max_y = y;
+    }
+    break;
+  case kDownDegree:
+    if (y < min_y + 2) {
+      y = min_y;
+      if (x < min_x + 2) {
+        return false;
+      }
+      x -= 2;
+      max_x = x;
+    } else {
+      y -= 2;
+    }
+    break;
+  case kLeftDegree:
+    if (x < min_x + 2) {
+      x = min_x;
+      y += 2;
+      if (y > max_y) {
+        return false;
+      }
+      min_y = y;
+    } else {
+      x -= 2;
+    }
+    break;
+  }
+  degrees_rotate += kOneRotate;
+  return true;
+}
+
+bool ShipPlaceState::AllShipsArePlaced() {
+  for (uint64_t elem: count_ship) {
+    if (elem != 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool ShipPlaceState::IsAbroad() {
+  return x < min_x || x > max_x || y < min_y || y > max_y;
+}
+
 
 
 size_t FindShip(std::vector<size_t>& ship_counts, const size_t& window) {
@@ -210,261 +358,186 @@ void PlayerGame::PlaceShip(uint64_t& x, uint64_t& y, const size_t& ship_size,
   field_.PlaceShip(x, y, ship_size, rotation, is_check);
 }
 
-bool PlayerGame::MakeUpToRightRotate(uint64_t& x, uint64_t& y, uint64_t& max_y,
-                                     uint64_t& min_x, const uint64_t max_x,
-                                     uint16_t& degrees_rotate,
-                                     std::vector<uint64_t>& count_ship,
-                                     bool is_check) {
-
-  size_t window = max_y - y + 1;
-  size_t new_size = FindShip(count_ship, window);
+bool PlayerGame::MakeUpToRightRotate(ShipPlaceState& state, bool is_check) {
+  size_t window = state.max_y - state.y + 1;
+  size_t new_size = FindShip(state.count_ship, window);
   if (new_size == 0) {
-    y = max_y;
-    degrees_rotate += kOneRotate;
-    min_x += 2;
+    state.y = state.max_y;
+    state.degrees_rotate += kOneRotate;
+    state.min_x += 2;
     return true;
   }
-  PlaceShip(x, y, new_size, degrees_rotate, is_check);
-  y += 2;
-  if (y > max_y) {
-    y = max_y;
-    x += 2;
-    if (x > max_x) {
+  PlaceShip(state.x, state.y, new_size, state.degrees_rotate, is_check);
+  state.y += 2;
+  if (state.y > state.max_y) {
+    state.y = state.max_y;
+    state.x += 2;
+    if (state.x > state.max_x) {
       return false;
       ;
     }
-    min_x += 2;
-    degrees_rotate += kOneRotate;
+    state.min_x += 2;
+    state.degrees_rotate += kOneRotate;
   }
   return true;
 }
 
-bool PlayerGame::MakeRightToDownRotate(uint64_t& x, uint64_t& y,
-                                       uint64_t& max_y, uint64_t& max_x,
-                                       const uint64_t min_y, uint16_t& rotate,
-                                       std::vector<uint64_t>& count_ship,
-                                       bool is_check) {
-
-  size_t window = max_x - x + 1;
-  size_t new_size = FindShip(count_ship, window);
+bool PlayerGame::MakeRightToDownRotate(ShipPlaceState& state, bool is_check) {
+  size_t window = state.max_x - state.x + 1;
+  size_t new_size = FindShip(state.count_ship, window);
   if (new_size == 0) {
-    x = max_x;
-    rotate += kOneRotate;
-    max_y -= 2;
+    state.x = state.max_x;
+    state.degrees_rotate += kOneRotate;
+    state.max_y -= 2;
     return true;
     ;
   }
-  PlaceShip(x, y, new_size, rotate, is_check);
-  x += 2;
-  if (x > max_x) {
-    x = max_x;
-    y -= 2;
-    if (y < min_y) {
+  PlaceShip(state.x, state.y, new_size, state.degrees_rotate, is_check);
+  state.x += 2;
+  if (state.x > state.max_x) {
+    state.x = state.max_x;
+    state.y -= 2;
+    if (state.y < state.min_y) {
       return false;
     }
-    max_y -= 2;
-    rotate += kOneRotate;
+    state.max_y -= 2;
+    state.degrees_rotate += kOneRotate;
   }
   return true;
 }
 
-bool PlayerGame::MakeDownToLeftRotate(uint64_t& x, uint64_t& y, uint64_t& min_y,
-                                      uint64_t& max_x, const uint64_t min_x,
-                                      uint16_t& rotate,
-                                      std::vector<uint64_t>& count_ship,
-                                      bool is_check) {
-
-  size_t window = y - min_y + 1;
-  size_t new_size = FindShip(count_ship, window);
+bool PlayerGame::MakeDownToLeftRotate(ShipPlaceState& state, bool is_check) {
+  size_t window = state.y - state.min_y + 1;
+  size_t new_size = FindShip(state.count_ship, window);
   if (new_size == 0) {
-    y = min_y;
-    rotate += kOneRotate;
-    max_x -= 2;
+    state.y = state.min_y;
+    state.degrees_rotate += kOneRotate;
+    state.max_x -= 2;
     return true;
   }
-  PlaceShip(x, y, new_size, rotate, is_check);
-  if (y < min_y + 2) {
-    y = min_y;
-    if (x < min_x + 2) {
+  PlaceShip(state.x, state.y, new_size, state.degrees_rotate, is_check);
+  if (state.y < state.min_y + 2) {
+    state.y = state.min_y;
+    if (state.x < state.min_x + 2) {
       return false;
     }
-    x -= 2;
-    max_x -= 2;
-    rotate += kOneRotate;
+    state.x -= 2;
+    state.max_x -= 2;
+    state.degrees_rotate += kOneRotate;
   }
   return true;
 }
 
-bool PlayerGame::MakeLeftToUpRotate(uint64_t& x, uint64_t& y, uint64_t& min_y,
-                                    uint64_t& min_x, const uint64_t max_y,
-                                    uint16_t& rotate,
-                                    std::vector<uint64_t>& count_ship,
-                                    bool is_check) {
-
-  size_t window = x - min_x + 1;
-  size_t new_size = FindShip(count_ship, window);
+bool PlayerGame::MakeLeftToUpRotate(ShipPlaceState& state, bool is_check) {
+  size_t window = state.x - state.min_x + 1;
+  size_t new_size = FindShip(state.count_ship, window);
 
   if (new_size == 0) {
-    x = min_x;
-    rotate += kOneRotate;
-    min_y += 2;
-    return 2;
+    state.x = state.min_x;
+    state.degrees_rotate += kOneRotate;
+    state.min_y += 2;
+    return true;
     ;
   }
-  PlaceShip(x, y, new_size, rotate, is_check);
-  if (x < min_x + 2) {
-    x = min_x;
-    if (y + 2 > max_y) {
-      return 1;
+  PlaceShip(state.x, state.y, new_size, state.degrees_rotate, is_check);
+  if (state.x < state.min_x + 2) {
+    state.x = state.min_x;
+    if (state.y + 2 > state.max_y) {
+      return false;
     }
-    y += 2;
-    min_y += 2;
-    rotate += kOneRotate;
+    state.y += 2;
+    state.min_y += 2;
+    state.degrees_rotate += kOneRotate;
   }
-  return 0;
+  return true;
 }
-bool PlayerGame::CirclePlace(bool is_check) {
-  size_t window, new_size = 0;
-  std::vector<uint64_t> count_ship = ships_count_;
-  uint64_t x = 0, y = 0, min_x = 0, min_y = 0;
-  uint64_t max_x = size_x_ - 1, max_y = size_y_ - 1;
-  uint16_t degrees_rotate = 0;
 
+bool PlayerGame::CirclePlace(bool is_check, ShipPlaceState& state) {
   for (size_t ship_size = 4; ship_size != 0; --ship_size) {
-    while (count_ship[ship_size - 1] != 0) {
-      if (y + ship_size - 1 > max_y && degrees_rotate % kCircle == 0) {
-        if (!MakeUpToRightRotate(x, y, max_y, min_x, max_x, degrees_rotate,
-                                 count_ship, is_check)) {
+    while (state.count_ship[ship_size - 1] != 0) {
+      if (state.y + ship_size - 1 > state.max_y && state.degrees_rotate % kCircle == 0) {
+        if (!MakeUpToRightRotate(state, is_check)) {
           return false;
         }
 
-      } else if (x + ship_size - 1 > max_x && degrees_rotate % kCircle == kRightDegree) {
-        if (!MakeRightToDownRotate(x, y, max_y, max_x, min_y, degrees_rotate,
-                                   count_ship, is_check)) {
+      } else if (state.x + ship_size - 1 > state.max_x && state.degrees_rotate % kCircle == kRightDegree) {
+        if (!MakeRightToDownRotate(state, is_check)) {
           return false;
         }
 
-      } else if (y + 1 < min_y + ship_size && degrees_rotate % kCircle == kDownDegree) {
-        if (!MakeDownToLeftRotate(x, y, min_y, max_x, min_x, degrees_rotate,
-                                  count_ship, is_check)) {
+      } else if (state.y + 1 < state.min_y + ship_size && state.degrees_rotate % kCircle == kDownDegree) {
+        if (!MakeDownToLeftRotate(state, is_check)) {
           return false;
         }
 
-      } else if (x + 1 < min_x + ship_size && degrees_rotate % kCircle == kLeftDegree) {
-        if (!MakeLeftToUpRotate(x, y, min_y, min_x, max_y, degrees_rotate,
-                                count_ship, is_check)) {
+      } else if (state.x + 1 < state.min_x + ship_size && state.degrees_rotate % kCircle == kLeftDegree) {
+        if (!MakeLeftToUpRotate(state, is_check)) {
           return false;
         }
 
       } else {
-        if (x < min_x || x > max_x || y < min_y || y > max_y) {
+        if (state.IsAbroad()) {
           return false;
         }
-        PlaceShip(x, y, ship_size, degrees_rotate, is_check);
-        --count_ship[ship_size - 1];
-        if (AllShipsArePlaced(count_ship)) {
+        PlaceShip(state.x, state.y, ship_size, state.degrees_rotate, is_check);
+        --state.count_ship[ship_size - 1];
+        if (state.AllShipsArePlaced()) {
           return true;
         }
-        switch (degrees_rotate % kCircle) {
-          case KUpDegree:
-            y += 2;
-            if (y > max_y) {
-              y = max_y;
-              x += 2;
-              if (x > max_x) {
-                return false;
-              }
-              min_x = x;
-            }
-            break;
-          case kRightDegree:
-            x += 2;
-            if (x > max_x) {
-              x = max_x;
-              if (y < min_y + 2) {
-                return false;
-              }
-              y -= 2;
-              max_y = y;
-            }
-            break;
-          case kDownDegree:
-            if (y < min_y + 2) {
-              y = min_y;
-              if (x < min_x + 2) {
-                return false;
-              }
-              x -= 2;
-              max_x = x;
-            } else {
-              y -= 2;
-            }
-            break;
-          case kLeftDegree:
-            if (x < min_x + 2) {
-              x = min_x;
-              y += 2;
-              if (y > max_y) {
-                return false;
-              }
-              min_y = y;
-            } else {
-              x -= 2;
-            }
-            break;
+        if (!state.MaKeStep()) {
+          return false;
         }
-        degrees_rotate += kOneRotate;
       }
     }
   }
-  return true;
+  return state.AllShipsArePlaced();
 }
 
-bool PlayerGame::ColumnRowPlace(bool is_check, bool is_row) {
-  size_t window, size_x = size_x_, size_y = size_y_, new_size = 0, rotate = 0;
+bool PlayerGame::ColumnRowPlace(bool is_check, bool is_row, ShipPlaceState& state) {
+  uint64_t size_x = size_x_, size_y = size_y_;
   if (is_row) {
     size_x = size_y_;
     size_y = size_x_;
-    rotate = kRightDegree;
+    state.degrees_rotate = kRightDegree;
   }
-  std::vector<uint64_t> count_ship = ships_count_;
   for (size_t x = 0; x < size_x; x += 2) {
     for (size_t y = 0 ; y < size_y; ++y) {
-      window = size_y_ - y;
-      new_size = FindShip(count_ship, window);
-      if (new_size == 0) {
+      state.window = size_y_ - y;
+      state.new_size = FindShip(state.count_ship, state.window);
+      if (state.new_size == 0) {
         break;
       }
       if (is_row) {
-        PlaceShip(y, x, new_size, rotate, is_check);
+        PlaceShip(y, x, state.new_size, state.degrees_rotate, is_check);
       }
       else {
-        PlaceShip(x, y, new_size, rotate, is_check);
+        PlaceShip(x, y, state.new_size, state.degrees_rotate, is_check);
       }
       y += 2;
     }
   }
-  return AllShipsArePlaced(count_ship);
+  return AllShipsArePlaced(state.count_ship);
 }
 
 bool PlayerGame::PlaceAllShips(bool is_check) {
-  if (CirclePlace(true)) {
+  ShipPlaceState state(size_x_, size_y_, ships_count_);
+  if (CirclePlace(true, state)) {
     if (is_check) {
       return true;
     }
-    return CirclePlace(false);
+    return CirclePlace(false, state);
   }
-  if (ColumnRowPlace(true, true)) {
+  if (ColumnRowPlace(true, true, state)) {
     if (is_check) {
       return true;
     }
-    return ColumnRowPlace(false,true);
+    return ColumnRowPlace(false,true, state);
   }
-  if (ColumnRowPlace(true, false)) {
+  if (ColumnRowPlace(true, false, state)) {
     if (is_check) {
       return true;
     }
-    return ColumnRowPlace(false,false);
+    return ColumnRowPlace(false,false, state);
   }
   return false;
 }
