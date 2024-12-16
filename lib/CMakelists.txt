@@ -1,0 +1,7 @@
+add_subdirectory(out_input_stream)
+add_subdirectory(game)
+
+include_directories(
+  "${CMAKE_CURRENT_SOURCE_DIR}/game/"
+  "${CMAKE_CURRENT_SOURCE_DIR}/out_input_stream/"
+)
